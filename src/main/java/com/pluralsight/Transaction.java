@@ -1,38 +1,71 @@
 package com.pluralsight;
 
-public class Transaction {
-    private String date;
-    private String time;
-    private String vendor;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-    private String type;
+public class Transaction {
+    private LocalDate date;
+    private LocalTime time;
+    private String description;
+    private String vendor;
     private double amount;
 
-    public Transaction(String date, String time, String vendor, String type, double amount) {
+    public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
+        this.description = description;
         this.vendor = vendor;
-        this.type = type;
         this.amount = amount;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public String getTime() {
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
         return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getVendor() {
         return vendor;
     }
 
-    public String getType() {
-        return type;
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 
     public double getAmount() {
         return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "date=" + date +
+                ", time=" + time +
+                ", description='" + description + '\'' +
+                ", vendor='" + vendor + '\'' +
+                ", amount=" + amount +
+                '}';
     }
 }

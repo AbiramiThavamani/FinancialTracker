@@ -1,17 +1,19 @@
 package com.pluralsight;
 
+import jdk.jfr.Description;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FinancialTracker {
 
-    private static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private static ArrayList<Transaction> transactions = new ArrayList<>();
     private static final String FILE_NAME = "transactions.csv";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String TIME_FORMAT = "HH:mm:ss";
@@ -91,14 +93,43 @@ public class FinancialTracker {
     }
 
      private static void addDeposit(Scanner scanner) {
-        // This method should prompt the user to enter the date, time, vendor, and amount of a deposit.
-        // The user should enter the date and time in the following format: yyyy-MM-dd HH:mm:ss
-        // The amount should be a positive number.
-        // After validating the input, a new `Deposit` object should be created with the entered values.
-        // The new deposit should be added to the `transactions` ArrayList.
-
-
+         // This method should prompt the user to enter the date, time, vendor, and amount of a deposit.
+         // The user should enter the date and time in the following format: yyyy-MM-dd HH:mm:ss
+         // The amount should be a positive number.
+         // After validating the input, a new `Deposit` object should be created with the entered values.
+         // The new deposit should be added to the `transactions` ArrayList.
+         System.out.print("Enter the date (yyyy-MM-dd): "); // prompt the user for date
+         LocalDate dateString = LocalDate.parse(scanner.nextLine(),DATE_FORMATTER);
+         System.out.print("Enter the time (HH:mm:ss): "); // prompt the user for time
+         LocalTime timeString = LocalTime.parse(scanner.nextLine(),TIME_FORMATTER);
+         System.out.print("Enter the description: ");
+         String description = scanner.nextLine(); // prompt the user of description
+         System.out.print("Enter the vendor name: ");
+         String vendor = scanner.nextLine(); // prompt the user of vendor
+         System.out.println("Enter the deposit amount: ");
+         double depositAmount;
+         try {
+              depositAmount = Double.parseDouble(scanner.nextLine());
+              if (depositAmount <= 0){
+                  System.out.println("Deposit amount must be positive. ");
+                  return; // exit the method or handle the error appropriately
+              }
+         } catch (NumberFormatException e) {
+             System.out.println("Invalid amount format. please enter a valid number. ");
+             return;  // exit the method or handle the error appropriately
          }
+
+
+         // crete new deposit transaction
+         Transaction transaction = new Transaction(dateString, timeString, description,vendor,depositAmount);
+         transactions.add(transaction);
+
+         scanner.close();
+         }
+
+
+
+
 
 
     private static void addPayment(Scanner scanner) {
@@ -107,6 +138,17 @@ public class FinancialTracker {
         // The amount should be a positive number.
         // After validating the input, a new `Payment` object should be created with the entered values.
         // The new payment should be added to the `transactions` ArrayList.
+        System.out.print("Enter the date (yyyy-MM-dd): "); // prompt the user for date
+        LocalDate dateString = LocalDate.parse(scanner.nextLine(),DATE_FORMATTER);
+        System.out.print("Enter the time (HH:mm:ss): "); // prompt the user for time
+        LocalTime timeString = LocalTime.parse(scanner.nextLine(),TIME_FORMATTER);
+        System.out.print("Enter the description: ");
+        String description = scanner.nextLine(); // prompt the user of description
+        System.out.print("Enter the vendor name: ");
+        String vendor = scanner.nextLine(); // prompt the user of vendor
+        System.out.println("Enter the deposit amount: ");
+        double depositAmount;
+
     }
 
     private static void ledgerMenu(Scanner scanner) {
