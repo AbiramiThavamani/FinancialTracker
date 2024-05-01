@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class FinancialTracker {
@@ -100,43 +101,32 @@ public class FinancialTracker {
         LocalDate dateString = LocalDate.parse(scanner.nextLine(), DATE_FORMATTER);
         System.out.print("Enter the time (HH:mm:ss): "); // prompt the user for time
         LocalTime timeString = LocalTime.parse(scanner.nextLine(), TIME_FORMATTER);
+        System.out.println("Enter the type: ");
+        String type = scanner.nextLine();
         System.out.print("Enter the vendor name: ");
         String vendor = scanner.nextLine(); // prompt the user of vendor
         System.out.println("Enter the deposit amount: ");
-        double depositAmount = 0;
-        try {
-            depositAmount = Double.parseDouble(scanner.nextLine());
+        double depositAmount =  Double.parseDouble(scanner.nextLine());
             if (depositAmount <= 0) {
-                System.out.println("Deposit amount must be positive number. ");
+                System.out.println("Invalid amount please try again. ");
                 return; // exit the method or handle the error appropriately
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid amount format. please enter a valid number. ");
-            return;  // exit the method or handle the error appropriately
-        }
-
 
         // crete new deposit transaction
-        Transaction deposit = new Transaction(dateString, timeString, "deposit", vendor, depositAmount);
+        Transaction deposit = new Transaction(dateString, timeString, type, vendor, depositAmount);
         transactions.add(deposit);
-        FileWriter fileWriter = null;
+        System.out.println("The deposit added successfully");
+
         try {
-            fileWriter = new FileWriter(FILE_NAME, true);
-            fileWriter.write(dateString + "|" + timeString + "|deposit|" + vendor + "|" + depositAmount + "\n");
-        } catch (Exception e) {
-            System.out.println("An error occurred while writing to the file: " + e.getMessage());
-        } finally {
-            try {
-                if (fileWriter != null) {
-                    fileWriter.close();
-                }
+            BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true));
+            writer.write(dateString + "|" + timeString + "|" + type + "|" + vendor + "|" + depositAmount + "\n");
+            System.out.println("Deposit added successfully to the transactions.csv file: ");
+            writer.close();
             } catch (Exception e) {
                 System.out.println("An error occurred while closing the FileWriter: " + e.getMessage());
             }
+
         }
-
-    }
-
 
     private static void addPayment(Scanner scanner) {
         // This method should prompt the user to enter the date, time, vendor, and amount of a payment.
@@ -148,43 +138,31 @@ public class FinancialTracker {
         LocalDate dateString = LocalDate.parse(scanner.nextLine(), DATE_FORMATTER);
         System.out.print("Enter the time (HH:mm:ss): "); // prompt the user for time
         LocalTime timeString = LocalTime.parse(scanner.nextLine(), TIME_FORMATTER);
+        System.out.println("Enter the type: ");
+        String type = scanner.nextLine();
         System.out.print("Enter the vendor name: ");
         String vendor = scanner.nextLine(); // prompt the user of vendor
         System.out.println("Enter the amount of a payment: ");
-        double amountPayment = -1;
-        while (amountPayment < 0) {
-            System.out.println("Enter the amount positive number: ");
-            try {
-                amountPayment = Double.parseDouble(scanner.nextLine());
-                if (amountPayment < 0) {
-                    System.out.println("Amount must be a positive number: ");
+        double amountPayment = Double.parseDouble(scanner.nextLine());
+          if (amountPayment >= 0) {
+                    System.out.println("Invalid amount please try again ");
+                    return;
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input Amount must be a number. ");
-            }
-        }
+          amountPayment *= -1;
 
         // create new  payment object
-        Transaction payment = new Transaction(dateString, timeString, "payment", vendor, amountPayment);
+        Transaction payment = new Transaction(dateString, timeString, type , vendor, amountPayment);
         transactions.add(payment);
-        FileWriter fileWriter = null;
+
         try {
-            fileWriter = new FileWriter(FILE_NAME, true);
-            fileWriter.write(dateString + "|" + timeString + "|deposit|" + vendor + "|" + amountPayment + "\n");
-        } catch (Exception e) {
-            System.out.println("payment added successfully: " + e.getMessage());
-        } finally {
-            try {
-                if (fileWriter != null) {
-                    fileWriter.close();
-                }
+            BufferedWriter writer= new BufferedWriter(new FileWriter(FILE_NAME, true));
+            writer.write(dateString + "|" + timeString + "|" + type + "|" + vendor + "|" + amountPayment + "\n");
+            System.out.println("Payment added successfully to the transaction csv file");
+            writer.close();
             } catch (Exception e) {
                 System.out.println("An error occurred while closing the FileWriter: " + e.getMessage());
             }
         }
-
-    }
-
 
     private static void ledgerMenu(Scanner scanner) {
         boolean running = true;
@@ -224,6 +202,7 @@ public class FinancialTracker {
     private static void displayLedger() {
         // This method should display a table of all transactions in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, type, and amount.
+        System.out.println("type in all list");
         for(int i = 0; i<transactions.size(); i++){
             Transaction myTransaction = transactions.get(i);
             System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
@@ -234,6 +213,7 @@ public class FinancialTracker {
     private static void displayDeposits() {
         // This method should display a table of all deposits in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, and amount.
+        System.out.println("deposit in all list");
         for (int i = 0; i < transactions.size(); i++) {
             Transaction myTransaction = transactions.get(i);
             String a = myTransaction.getType();;
@@ -246,6 +226,7 @@ public class FinancialTracker {
     private static void displayPayments() {
         // This method should display a table of all payments in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, and amount.
+        System.out.println("payment in all list");
         for (int i = 0; i < transactions.size(); i++) {
             Transaction myTransaction = transactions.get(i);
             String a = myTransaction.getType();
@@ -273,9 +254,22 @@ public class FinancialTracker {
                 case "1":
                     // Generate a report for all transactions within the current month,
                     // including the date, vendor, and amount for each transaction.
+                    System.out.println("List for all transaction from current month.");
+                     // get the current month
+                    LocalDate currentDate = LocalDate.now();
+                    int currentMonth = currentDate.getMonthValue();
+                    System.out.println("Transaction report for current month is: " + currentMonth);
+                    LocalDate startOfMonth = currentDate.withDayOfMonth(1);
+                    filterTransactionsByDate(startOfMonth,currentDate);
+
+                    break;
+
+
                 case "2":
                     // Generate a report for all transactions within the previous month,
                     // including the date, vendor, and amount for each transaction.
+                    System.out.println("list for all transaction from the previous month.");
+
                 case "3":
                     // Generate a report for all transactions within the current year,
                     // including the date, vendor, and amount for each transaction.
