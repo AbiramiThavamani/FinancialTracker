@@ -1,16 +1,9 @@
 package com.pluralsight;
-
-import jdk.jfr.Description;
-
-import javax.imageio.IIOException;
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 public class FinancialTracker {
@@ -39,7 +32,7 @@ public class FinancialTracker {
 
             String input = scanner.nextLine().trim();
 
-            switch (input.toUpperCase()) {
+            switch  (input.toUpperCase()) {
                 case "D":
                     addDeposit(scanner);
                     break;
@@ -144,7 +137,7 @@ public class FinancialTracker {
         String vendor = scanner.nextLine(); // prompt the user of vendor
         System.out.println("Enter the amount of a payment: ");
         double amountPayment = Double.parseDouble(scanner.nextLine());
-          if (amountPayment >= 0) {
+          if (amountPayment <= 0) {
                     System.out.println("Invalid amount please try again ");
                     return;
                 }
@@ -254,32 +247,47 @@ public class FinancialTracker {
                 case "1":
                     // Generate a report for all transactions within the current month,
                     // including the date, vendor, and amount for each transaction.
-                    System.out.println("List for all transaction from current month.");
-                     // get the current month
-                    LocalDate currentDate = LocalDate.now();
-                    int currentMonth = currentDate.getMonthValue();
-                    System.out.println("Transaction report for current month is: " + currentMonth);
-                    LocalDate startOfMonth = currentDate.withDayOfMonth(1);
-                    filterTransactionsByDate(startOfMonth,currentDate);
 
+                    LocalDate currentMonth = LocalDate.now();
+                    System.out.println("displaying all transactions for the month of " + currentMonth.getMonth());
+                    filterTransactionsByDate(currentMonth.withDayOfMonth(1),currentMonth);
                     break;
 
 
                 case "2":
                     // Generate a report for all transactions within the previous month,
                     // including the date, vendor, and amount for each transaction.
-                    System.out.println("list for all transaction from the previous month.");
+
+                    LocalDate previousMonth = LocalDate.now().minusMonths(1);
+                    System.out.println("displaying all transaction for the month of " + previousMonth.getMonth());
+                    filterTransactionsByDate(previousMonth.withDayOfMonth(1),previousMonth.withDayOfMonth(previousMonth.lengthOfMonth()));
+                    break;
+
+
 
                 case "3":
                     // Generate a report for all transactions within the current year,
                     // including the date, vendor, and amount for each transaction.
+                    LocalDate currentYear = LocalDate.now();
+                    System.out.println("displaying all transaction for the year of " + currentYear.getYear());
+                    filterTransactionsByDate(currentYear.withDayOfYear(1),currentYear);
+                    break;
 
                 case "4":
                     // Generate a report for all transactions within the previous year,
                     // including the date, vendor, and amount for each transaction.
+                    LocalDate previousYear = LocalDate.now().minusYears(1);
+                    System.out.println("displaying all transactions for the year of " + previousYear.getYear());
+                    filterTransactionsByDate(previousYear.withDayOfYear(1),previousYear.withMonth(12).withDayOfMonth(31));
+                    break;
                 case "5":
                     // Prompt the user to enter a vendor name, then generate a report for all transactions
                     // with that vendor, including the date, vendor, and amount for each transaction.
+                    System.out.println("Enter a vendor name: ");
+                    String vendorName = scanner.nextLine().trim();
+                    filterTransactionsByVendor(vendorName);
+                    break;
+
                 case "0":
                     running = false;
                 default:
@@ -289,14 +297,27 @@ public class FinancialTracker {
         }
     }
 
-
     private static void filterTransactionsByDate(LocalDate startDate, LocalDate endDate) {
         // This method filters the transactions by date and prints a report to the console.
         // It takes two parameters: startDate and endDate, which represent the range of dates to filter by.
         // The method loops through the transactions list and checks each transaction's date against the date range.
         // Transactions that fall within the date range are printed to the console.
         // If no transactions fall within the date range, the method prints a message indicating that there are no results.
-    }
+       ArrayList<Transaction> found = new ArrayList<>();
+        System.out.println("Transaction with a date range: ");
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate = transaction.getDate();
+              if (transactionDate.isBefore(startDate) && transactionDate.isAfter(endDate)) {
+                  found.add(transaction);
+                System.out.println(transaction);
+
+            }
+        }     if(found.isEmpty()){
+               System.out.println("no transactions found within the given date range!. ");
+         }
+
+        }
+
 
     private static void filterTransactionsByVendor(String vendor) {
         // This method filters the transactions by vendor and prints a report to the console.
@@ -304,5 +325,16 @@ public class FinancialTracker {
         // The method loops through the transactions list and checks each transaction's vendor name against the specified vendor name.
         // Transactions with a matching vendor name are printed to the console.
         // If no transactions match the specified vendor name, the method prints a message indicating that there are no results.
+        ArrayList<Transaction> found = new ArrayList<>();
+        System.out.println("Transaction for vendor: " + vendor);
+        for (Transaction transaction : transactions){
+            if (transaction.getVendor().equals(vendor)){
+                found.add(transaction);
+                System.out.println(transaction);
+            }
+        }
+        if (found.isEmpty()){
+            System.out.println("no transaction found with given vendor!: " );
+        }
     }
 }
