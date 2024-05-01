@@ -191,7 +191,7 @@ public class FinancialTracker {
         while (running) {
             System.out.println("Ledger");
             System.out.println("Choose an option:");
-            System.out.println("A) A`ll");
+            System.out.println("A) All");
             System.out.println("D) Deposits");
             System.out.println("P) Payments");
             System.out.println("R) Reports");
@@ -224,18 +224,35 @@ public class FinancialTracker {
     private static void displayLedger() {
         // This method should display a table of all transactions in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, type, and amount.
-        System.out.println("displayLedger");
+        for(int i = 0; i<transactions.size(); i++){
+            Transaction myTransaction = transactions.get(i);
+            System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
+        }
 
     }
 
     private static void displayDeposits() {
         // This method should display a table of all deposits in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, and amount.
+        for (int i = 0; i < transactions.size(); i++) {
+            Transaction myTransaction = transactions.get(i);
+            String a = myTransaction.getType();;
+            if(a.equals("deposit")) {
+                System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
+            }
+        }
     }
 
     private static void displayPayments() {
         // This method should display a table of all payments in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, and amount.
+        for (int i = 0; i < transactions.size(); i++) {
+            Transaction myTransaction = transactions.get(i);
+            String a = myTransaction.getType();
+            if(a.equals("payment")) {
+                System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
+            }
+        }
     }
 
     private static void reportsMenu(Scanner scanner) {
