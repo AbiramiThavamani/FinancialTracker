@@ -10,7 +10,6 @@ public class Transaction {
     private String vendor;
     private String type;
     private  double payment;
-    private double amount;
 
     public Transaction(LocalDate date, LocalTime time, String type, String vendor,double payment) {
         this.date = date;
@@ -61,13 +60,6 @@ public class Transaction {
         this.payment = payment;
     }
 
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
 
     @Override
     public String toString() {

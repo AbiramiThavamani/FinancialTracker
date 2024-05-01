@@ -217,7 +217,7 @@ public class FinancialTracker {
         for (int i = 0; i < transactions.size(); i++) {
             Transaction myTransaction = transactions.get(i);
             String a = myTransaction.getType();;
-            if(a.equals("deposit")) {
+            if(myTransaction.getPayment() > 0) {
                 System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
             }
         }
@@ -230,7 +230,7 @@ public class FinancialTracker {
         for (int i = 0; i < transactions.size(); i++) {
             Transaction myTransaction = transactions.get(i);
             String a = myTransaction.getType();
-            if(a.equals("payment")) {
+            if(myTransaction.getPayment() < 0) {
                 System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
             }
         }
