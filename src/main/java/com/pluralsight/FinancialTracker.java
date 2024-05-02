@@ -15,7 +15,7 @@ public class FinancialTracker {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_FORMAT);
 
-    Scanner scanner = new Scanner(System.in);
+
 
     public static void main(String[] args) {
         loadTransactions(FILE_NAME);
@@ -67,14 +67,14 @@ public class FinancialTracker {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] parts = line.split("\\|");
+                String[] parts = line.split("\\|"); // pipe
                 if (parts.length == 5) {
-                    LocalDate date = LocalDate.parse(parts[0].trim());
-                    LocalTime time = LocalTime.parse(parts[1].trim());
-                    String type = parts[2].trim();
+                    LocalDate date = LocalDate.parse(parts[0].trim(), DATE_FORMATTER); // convert string to date
+                    LocalTime time = LocalTime.parse(parts[1].trim(), TIME_FORMATTER);
+                    String description = parts[2].trim();
                     String vendor = parts[3].trim();
                     double amount = Double.parseDouble(parts[4]);
-                    transactions.add(new Transaction(date, time, type, vendor, amount));
+                    transactions.add(new Transaction(date, time, description, vendor, amount));
                 }
 
             }
@@ -94,8 +94,8 @@ public class FinancialTracker {
         LocalDate dateString = LocalDate.parse(scanner.nextLine(), DATE_FORMATTER);
         System.out.print("Enter the time (HH:mm:ss): "); // prompt the user for time
         LocalTime timeString = LocalTime.parse(scanner.nextLine(), TIME_FORMATTER);
-        System.out.println("Enter the type: ");
-        String type = scanner.nextLine();
+        System.out.println("Enter the description: ");
+        String description = scanner.nextLine();
         System.out.print("Enter the vendor name: ");
         String vendor = scanner.nextLine(); // prompt the user of vendor
         System.out.println("Enter the deposit amount: ");
@@ -106,13 +106,14 @@ public class FinancialTracker {
             }
 
         // crete new deposit transaction
-        Transaction deposit = new Transaction(dateString, timeString, type, vendor, depositAmount);
+        Transaction deposit = new Transaction(dateString, timeString, description, vendor, depositAmount);
         transactions.add(deposit);
+
         System.out.println("The deposit added successfully");
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true));
-            writer.write(dateString + "|" + timeString + "|" + type + "|" + vendor + "|" + depositAmount + "\n");
+            writer.write(dateString + "|" + timeString + "|" + description + "|" + vendor + "|" + depositAmount + "\n");
             System.out.println("Deposit added successfully to the transactions.csv file: ");
             writer.close();
             } catch (Exception e) {
@@ -131,8 +132,8 @@ public class FinancialTracker {
         LocalDate dateString = LocalDate.parse(scanner.nextLine(), DATE_FORMATTER);
         System.out.print("Enter the time (HH:mm:ss): "); // prompt the user for time
         LocalTime timeString = LocalTime.parse(scanner.nextLine(), TIME_FORMATTER);
-        System.out.println("Enter the type: ");
-        String type = scanner.nextLine();
+        System.out.println("Enter the description: ");
+        String description = scanner.nextLine();
         System.out.print("Enter the vendor name: ");
         String vendor = scanner.nextLine(); // prompt the user of vendor
         System.out.println("Enter the amount of a payment: ");
@@ -144,12 +145,12 @@ public class FinancialTracker {
           amountPayment *= -1;
 
         // create new  payment object
-        Transaction payment = new Transaction(dateString, timeString, type , vendor, amountPayment);
+        Transaction payment = new Transaction(dateString, timeString, description , vendor, amountPayment);
         transactions.add(payment);
 
         try {
             BufferedWriter writer= new BufferedWriter(new FileWriter(FILE_NAME, true));
-            writer.write(dateString + "|" + timeString + "|" + type + "|" + vendor + "|" + amountPayment + "\n");
+            writer.write(dateString + "|" + timeString + "|" + description + "|" + vendor + "|" + amountPayment + "\n");
             System.out.println("Payment added successfully to the transaction csv file");
             writer.close();
             } catch (Exception e) {
@@ -196,8 +197,7 @@ public class FinancialTracker {
         // This method should display a table of all transactions in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, type, and amount.
         System.out.println("type in all list");
-        for(int i = 0; i<transactions.size(); i++){
-            Transaction myTransaction = transactions.get(i);
+        for(Transaction myTransaction: transactions){
             System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
         }
 
@@ -207,27 +207,25 @@ public class FinancialTracker {
         // This method should display a table of all deposits in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, and amount.
         System.out.println("deposit in all list");
-        for (int i = 0; i < transactions.size(); i++) {
-            Transaction myTransaction = transactions.get(i);
-            String a = myTransaction.getType();;
-            if(myTransaction.getPayment() > 0) {
+        for (Transaction myTransaction: transactions) {
+            if(myTransaction.getPayment() >=0){
                 System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
             }
+            }
         }
-    }
+
 
     private static void displayPayments() {
         // This method should display a table of all payments in the `transactions` ArrayList.
         // The table should have columns for date, time, vendor, and amount.
         System.out.println("payment in all list");
-        for (int i = 0; i < transactions.size(); i++) {
-            Transaction myTransaction = transactions.get(i);
-            String a = myTransaction.getType();
-            if(myTransaction.getPayment() < 0) {
+        for (Transaction myTransaction: transactions) {
+            if(myTransaction.getPayment() <= 0){
                 System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|"+ myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
+
+            }
             }
         }
-    }
 
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
@@ -307,7 +305,7 @@ public class FinancialTracker {
         System.out.println("Transaction with a date range: ");
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = transaction.getDate();
-              if (transactionDate.isBefore(startDate) && transactionDate.isAfter(endDate)) {
+              if (transactionDate.isAfter(startDate.minusDays(1)) && transactionDate.isBefore(endDate.plusDays(1))) {
                   found.add(transaction);
                 System.out.println(transaction);
 
@@ -328,7 +326,7 @@ public class FinancialTracker {
         ArrayList<Transaction> found = new ArrayList<>();
         System.out.println("Transaction for vendor: " + vendor);
         for (Transaction transaction : transactions){
-            if (transaction.getVendor().equals(vendor)){
+            if (transaction.getVendor().equalsIgnoreCase(vendor)){
                 found.add(transaction);
                 System.out.println(transaction);
             }
