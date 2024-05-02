@@ -1,21 +1,23 @@
 # Project Title
 
+Accounting Ledger
+
 ## Description of the Project
 
-Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what problems it aims to solve.
-
-![Class Diagram](path/to/your/class_diagram.png)
-
+A project name is Financial Tracker the application of project to track the transaction to store the data in file 
+So we can easily access and monitor their income that file to reference in future the project based on money transaction deposit. A amount and payment
+seeing that transaction list name and date time to check when the payment happened over all view the hole transaction and check credit, debit 
+transaction to se the transaction of own account each person has a secret code to view their recepit after typing their number. Data inside file 
+to find the specific transaction list we provide the deposit check date and time formatter the formatter should be what we provided exact process 
+the goal is provide users with comprehensive view of their finances,finally it display the entire transactions.
 ## User Stories
 
-List the user stories that guided the development of your application. Format these stories as: "As a [type of user], I want [some goal] so that [some reason]."
+- As a user, I need to create a Transaction class with attributes to store the arguments So I can access the information.
+- As a user, I want to Load the transaction file I can Exist Financial data application.
+- As a user, I want to be quick to enter the details of a deposit so that I can record incoming cash.
+- As a user, I want to be quick to enter the details of payment so that I can record incoming asses.
+- As a user, I want to display entire ledger list then only I can quick accessible all lists.
 
-- As a user, I want to be able to input my data, so that the application can process it accordingly.
-- As a user, I want to receive immediate feedback, so I can understand what to do next.
-
-## Setup
-
-Instructions on how to set up and run the project using IntelliJ IDEA.
 
 ### Prerequisites
 
@@ -26,7 +28,7 @@ Instructions on how to set up and run the project using IntelliJ IDEA.
 
 Follow these steps to get your application running within IntelliJ IDEA:
 
-1. Open IntelliJ IDEA.
+1. Open the IntelliJ IDEA.
 2. Select "Open" and navigate to the directory where you cloned or downloaded the project.
 3. After the project opens, wait for IntelliJ to index the files and set up the project.
 4. Find the main class with the `public static void main(String[] args)` method.
@@ -34,8 +36,9 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Technologies Used
 
-- Java: Mention the version you are using.
-- Any additional libraries or frameworks used in the project.
+
+- IntelliJ IDEA version 2022.3.2 
+- JAVA 17
 
 ## Demo
 
@@ -45,26 +48,22 @@ Include screenshots or GIFs that show your application in action. Use tools like
 
 ## Future Work
 
-Outline potential future enhancements or functionalities you might consider adding:
 
 - Additional feature to be developed.
+- In feature to create the password to each vendor to the transaction.
+- In feature the vendor deposit amount is less than particular cash it should be give warning to the vendor.
 - Improvement of current functionalities.
+- In current improvement add a investment tracking user can optimize their financial goal more effectively.
 
 ## Resources
 
-List resources such as tutorials, articles, or documentation that helped you during the project.
+Workbook1 financial calculator https://app.schoology.com/attachment/2926311493/source/ed3f5a380ce606f0965d61e82dc02529.pdf
+workbook2 Strings loops Array https://app.schoology.com/attachment/2926311503/source/ad7bfe6ddf41e4c168a52c81c3e733e9.pdf
 
 - [Java Programming Tutorial](https://www.example.com)
 - [Effective Java](https://www.example.com)
 
-## Team Members
-
-- **Name 1** - Specific contributions or roles.
-- **Name 2** - Specific contributions or roles.
-
 ## Thanks
 
-Express gratitude towards those who provided help, guidance, or resources:
+- Thank you to Raymond Maroun for continuous support and guidance.
 
-- Thank you to [Mentor's Name] for continuous support and guidance.
-- A special thanks to all teammates for their dedication and teamwork.
