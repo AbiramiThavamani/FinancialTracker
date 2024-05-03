@@ -54,14 +54,7 @@ public class FinancialTracker {
     }
 
     public static void loadTransactions(String fileName) {
-        // This method should load transactions from a file with the given file name.
-        // If the file does not exist, it should be created.
-        // The transactions should be stored in the `transactions` ArrayList.
-        // Each line of the file represents a single transaction in the following format:
-        // <date>,<time>,<vendor>,<type>,<amount>
-        // For example: 2023-04-29,13:45:00,Amazon,PAYMENT,29.99
-        // After reading all the transactions, the file should be closed.
-        // If any errors occur, an appropriate error message should be displayed.
+
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
             String line;
@@ -73,7 +66,7 @@ public class FinancialTracker {
                     String description = parts[2].trim();
                     String vendor = parts[3].trim();
                     double amount = Double.parseDouble(parts[4]);
-                    transactions.add(new Transaction(date, time, description, vendor, amount));
+                    transactions.add(new Transaction(date, time, description, vendor, amount)); // added in Arraylist
                 }
 
             }
@@ -84,11 +77,7 @@ public class FinancialTracker {
     }
 
     private static void addDeposit(Scanner scanner) {
-        // This method should prompt the user to enter the date, time, vendor, and amount of a deposit.
-        // The user should enter the date and time in the following format: yyyy-MM-dd HH:mm:ss
-        // The amount should be a positive number.
-        // After validating the input, a new `Deposit` object should be created with the entered values.
-        // The new deposit should be added to the `transactions` ArrayList.
+
         System.out.print("Enter the date (yyyy-MM-dd): "); // prompt the user for date
         LocalDate dateString = LocalDate.parse(scanner.nextLine(), DATE_FORMATTER);
         System.out.print("Enter the time (HH:mm:ss): "); // prompt the user for time
@@ -97,16 +86,16 @@ public class FinancialTracker {
         String description = scanner.nextLine();
         System.out.print("Enter the vendor name: ");
         String vendor = scanner.nextLine(); // prompt the user of vendor
-        System.out.println("Enter the deposit amount: ");
+        System.out.println("Enter the deposit amount: "); // positive amount
         double depositAmount = Double.parseDouble(scanner.nextLine());
         if (depositAmount <= 0) {
             System.out.println("Invalid amount please try again. ");
             return; // exit the method or handle the error appropriately
         }
 
-        // crete new deposit transaction
+        // crete new deposit object  transaction
         Transaction deposit = new Transaction(dateString, timeString, description, vendor, depositAmount);
-        transactions.add(deposit);
+        transactions.add(deposit); // added to the ArrayList
 
         System.out.println("The deposit added successfully");
 
@@ -122,11 +111,7 @@ public class FinancialTracker {
     }
 
     private static void addPayment(Scanner scanner) {
-        // This method should prompt the user to enter the date, time, vendor, and amount of a payment.
-        // The user should enter the date and time in the following format: yyyy-MM-dd HH:mm:ss
-        // The amount should be a positive number.
-        // After validating the input, a new `Payment` object should be created with the entered values.
-        // The new payment should be added to the `transactions` ArrayList.
+
         System.out.print("Enter the date (yyyy-MM-dd): "); // prompt the user for date
         LocalDate dateString = LocalDate.parse(scanner.nextLine(), DATE_FORMATTER);
         System.out.print("Enter the time (HH:mm:ss): "); // prompt the user for time
@@ -194,8 +179,7 @@ public class FinancialTracker {
     }
 
     private static void displayLedger() {
-        // This method should display a table of all transactions in the `transactions` ArrayList.
-        // The table should have columns for date, time, vendor, type, and amount.
+       // all transaction list display
         System.out.println("type in all list");
         for (Transaction myTransaction : transactions) {
             System.out.println(myTransaction.getDate() + "|" + myTransaction.getTime() + "|" + myTransaction.getType() + "|" + myTransaction.getVendor() + "|" + myTransaction.getPayment());
@@ -204,8 +188,7 @@ public class FinancialTracker {
     }
 
     private static void displayDeposits() {
-        // This method should display a table of all deposits in the `transactions` ArrayList.
-        // The table should have columns for date, time, vendor, and amount.
+       // all deposit transaction list
         System.out.println("deposit in all list");
         for (Transaction myTransaction : transactions) {
             if (myTransaction.getPayment() >= 0) {
@@ -216,8 +199,7 @@ public class FinancialTracker {
 
 
     private static void displayPayments() {
-        // This method should display a table of all payments in the `transactions` ArrayList.
-        // The table should have columns for date, time, vendor, and amount.
+
         System.out.println("payment in all list");
         for (Transaction myTransaction : transactions) {
             if (myTransaction.getPayment() <= 0) {
@@ -295,8 +277,7 @@ public class FinancialTracker {
     }
 
     private static void filterTransactionsByDate(LocalDate startDate, LocalDate endDate) {
-        // This method filters the transactions by date and prints a report to the console.
-        // It takes two parameters: startDate and endDate, which represent the range of dates to filter by.
+
         // The method loops through the transactions list and checks each transaction's date against the date range.
         // Transactions that fall within the date range are printed to the console.
         // If no transactions fall within the date range, the method prints a message indicating that there are no results.
@@ -318,8 +299,8 @@ public class FinancialTracker {
 
 
     private static void filterTransactionsByVendor(String vendor) {
-        // This method filters the transactions by vendor and prints a report to the console.
-        // It takes one parameter: vendor, which represents the name of the vendor to filter by.
+
+        
         // The method loops through the transactions list and checks each transaction's vendor name against the specified vendor name.
         // Transactions with a matching vendor name are printed to the console.
         // If no transactions match the specified vendor name, the method prints a message indicating that there are no results.
