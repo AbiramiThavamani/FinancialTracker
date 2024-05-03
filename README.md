@@ -4,7 +4,7 @@ Accounting Ledger
 
 ## Description of the Project
 
-A project name is Financial Tracker the application of project to track the transaction to store the data in file 
+A project name is Accounting Ledger  the application of project to track the transaction to store the data in file 
 So we can easily access and monitor their income that file to reference in future the project based on money transaction deposit. A amount and payment
 seeing that transaction list name and date time to check when the payment happened over all view the hole transaction and check credit, debit 
 transaction to se the transaction of own account each person has a secret code to view their recepit after typing their number. Data inside file 
